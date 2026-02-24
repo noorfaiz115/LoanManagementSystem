@@ -34,11 +34,14 @@ import { IntrestAndChargesComponent } from "./pages/intrest-and-charges/intrest-
 import { PaymentComponent } from "./pages/payment/payment.component";
 import { ForclosureComponent } from "./pages/forclosure/forclosure.component";
 import { LoanclosureComponent } from "./pages/loanclosure/loanclosure.component";
+import { authGuard } from "./guards/auth.guard";
+import { UnauthorizedComponent } from "./unauthorized/unauthorized.component";
 
 export const routes: Routes = [
   {
     path: "",
     component: AppLayoutComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: "",
@@ -56,12 +59,16 @@ export const routes: Routes = [
       {
         path: "customers",
         component: CustomerComponent,
+        canActivate: [authGuard],
+        data: { roles: ["Admin"] },
         title:
           "Angular Customers Dashboard | TailAdmin - Angular Admin Dashboard Template",
       },
       {
         path: "branches",
         component: GeographicComponent,
+        canActivate: [authGuard],
+        data: { roles: ["Admin"] },
         title:
           "Angular Branches Dashboard | TailAdmin - Angular Admin Dashboard Template",
       },
@@ -80,10 +87,16 @@ export const routes: Routes = [
       {
         path: "LoanOriginations",
         component: LoanOriginationComponent,
+
+        canActivate: [authGuard],
+        data: { roles: ["Admin", "CBI Officer"] },
         children: [
           {
             path: "loan-type",
             component: LoanTypeComponent,
+
+            canActivate: [authGuard],
+            data: { roles: ["Admin", "CBI Officer"] },
             title:
               "Angular Loan Type Dashboard | TailAdmin - Angular Admin Dashboard Template",
           },
@@ -120,6 +133,9 @@ export const routes: Routes = [
       {
         path: "loan-account",
         component: LoanAccountComponent,
+
+        canActivate: [authGuard],
+        data: { roles: ["Customer"] },
         title:
           "Angular Loan Account Dashboard | TailAdmin - Angular Admin Dashboard Template",
       },
@@ -138,6 +154,9 @@ export const routes: Routes = [
       {
         path: "payment",
         component: PaymentComponent,
+
+        canActivate: [authGuard],
+        data: { roles: ["Customer"] },
         title:
           "Angular Payment Dashboard | TailAdmin - Angular Admin Dashboard Template",
       },
@@ -248,6 +267,12 @@ export const routes: Routes = [
     component: SignUpComponent,
     title:
       "Angular Sign Up Dashboard | TailAdmin - Angular Admin Dashboard Template",
+  },
+  {
+    path: "unauthorized",
+    component: UnauthorizedComponent,
+    title:
+      "Angular Unauthorized Dashboard | TailAdmin - Angular Admin Dashboard Template",
   },
   // error pages
   {
