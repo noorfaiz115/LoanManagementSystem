@@ -1,1 +1,174 @@
-<p>payment works!</p>
+<div class="p-6 space-y-6">
+
+  <!-- PAGE HEADER -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800 dark:text-white/90">My Payments</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        Loan ID: <span class="font-semibold text-gray-700 dark:text-white/70">#{{ loanId }}</span>
+      </p>
+    </div>
+    <!-- <div class="flex items-center gap-2 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-full px-4 py-2">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">APNA BANK · Live</span>
+    </div> -->
+  </div>
+
+  <!-- SUCCESS BANNER -->
+  <div *ngIf="paymentSuccess"
+    class="flex items-center gap-3 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 rounded-2xl px-5 py-4">
+    <div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center text-green-600 dark:text-green-400 shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-green-700 dark:text-green-400">Payment Successful!</p>
+      <p class="text-xs text-green-600 dark:text-green-500 mt-0.5">Your EMI has been paid successfully. History updated below.</p>
+    </div>
+  </div>
+
+  <!-- EMI PAYMENT CARD -->
+  <div class="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100 dark:border-white/[0.05]">
+      <h2 class="text-base font-semibold text-gray-800 dark:text-white/90">EMI</h2>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoadingEmi" class="p-6 space-y-4">
+      <div class="h-6 w-48 bg-gray-100 dark:bg-white/[0.05] rounded-lg animate-pulse"></div>
+      <div class="h-12 w-64 bg-gray-100 dark:bg-white/[0.05] rounded-xl animate-pulse"></div>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="h-16 bg-gray-100 dark:bg-white/[0.05] rounded-xl animate-pulse"></div>
+        <div class="h-16 bg-gray-100 dark:bg-white/[0.05] rounded-xl animate-pulse"></div>
+        <div class="h-16 bg-gray-100 dark:bg-white/[0.05] rounded-xl animate-pulse"></div>
+      </div>
+      <div class="h-12 bg-gray-100 dark:bg-white/[0.05] rounded-xl animate-pulse"></div>
+    </div>
+
+    <!-- No Pending EMI -->
+    <div *ngIf="!isLoadingEmi && !nextEmi" class="flex flex-col items-center justify-center py-12 text-gray-400 gap-3">
+      <div class="w-14 h-14 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center text-green-500">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <p class="text-sm font-semibold text-gray-600 dark:text-white/70">No Pending EMI</p>
+      <p class="text-xs text-gray-400">All your EMIs are up to date!</p>
+    </div>
+
+    <!-- EMI Details -->
+    <div *ngIf="!isLoadingEmi && nextEmi" class="p-5 space-y-5">
+
+      <!-- Due Date Badge -->
+      <div class="flex items-center gap-2">
+        <svg class="text-gray-400" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span class="text-xs text-gray-500 dark:text-gray-400">Due Date:</span>
+        <span class="text-xs font-semibold rounded-full px-2.5 py-0.5"
+          [class]="isOverdue(nextEmi.dueDate)
+            ? 'text-red-500 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20'
+            : isDueSoon(nextEmi.dueDate)
+            ? 'text-amber-600 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20'
+            : 'text-gray-600 dark:text-white/60 bg-gray-100 dark:bg-white/[0.05]'">
+          {{ isOverdue(nextEmi.dueDate) ? '⚠ Overdue · ' : '' }}{{ formatDate(nextEmi.dueDate) }}
+        </span>
+      </div>
+
+      <!-- EMI Amount -->
+      <div class="bg-gray-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/[0.05] rounded-2xl px-6 py-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">EMI Amount</p>
+          <p class="text-4xl font-mono font-bold text-gray-800 dark:text-white/90">{{ formatCurrency(nextEmi.emiAmount) }}</p>
+        </div>
+        <div class="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-400/10 border border-amber-100 dark:border-amber-400/20 flex items-center justify-center text-amber-500">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+        </div>
+      </div>
+
+      
+
+      <!-- Pay Button -->
+      <button
+        (click)="submitPayment()"
+        [disabled]="isProcessing"
+        class="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-500 disabled:opacity-60 disabled:cursor-not-allowed text-gray-900 font-bold text-base transition-all duration-200 hover:shadow-lg hover:shadow-amber-400/30">
+        <span *ngIf="isProcessing" class="w-5 h-5 border-2 border-gray-900/20 border-t-gray-900 rounded-full animate-spin"></span>
+        <svg *ngIf="!isProcessing" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        {{ isProcessing ? 'Processing Payment...' : 'Pay ' + formatCurrency(nextEmi.emiAmount) }}
+      </button>
+    </div>
+  </div>
+
+  <!-- PAYMENT HISTORY -->
+  <div class="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100 dark:border-white/[0.05] flex items-center justify-between">
+      <h2 class="text-base font-semibold text-gray-800 dark:text-white/90">Payment History</h2>
+      <span *ngIf="!isLoadingHistory" class="text-xs text-gray-400 bg-gray-100 dark:bg-white/[0.05] rounded-full px-3 py-1">
+        {{ paymentHistory.length }} Transaction{{ paymentHistory.length !== 1 ? 's' : '' }}
+      </span>
+    </div>
+
+    <!-- Skeleton -->
+    <div *ngIf="isLoadingHistory" class="p-5 space-y-3">
+      <div *ngFor="let i of [1,2,3]" class="h-12 rounded-xl bg-gray-100 dark:bg-white/[0.03] animate-pulse"></div>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!isLoadingHistory && paymentHistory.length === 0"
+      class="flex flex-col items-center justify-center py-14 text-gray-400 gap-3">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+      </svg>
+      <p class="text-sm">No payment history found</p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!isLoadingHistory && paymentHistory.length > 0" class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-gray-50 dark:bg-white/[0.02]">
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Amount</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Principal</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Interest</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penalty</th>
+            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-white/[0.05]">
+          <tr *ngFor="let p of paymentHistory" class="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition">
+            <td class="px-4 py-3.5 text-gray-600 dark:text-gray-300 whitespace-nowrap">{{ formatDate(p.paymentDate) }}</td>
+            <td class="px-4 py-3.5 font-mono font-semibold text-gray-800 dark:text-white/90">{{ formatCurrency(p.paymentAmount) }}</td>
+            <td class="px-4 py-3.5 font-mono text-blue-600 dark:text-blue-400 font-medium">{{ formatCurrency(p.principalPaid) }}</td>
+            <td class="px-4 py-3.5 font-mono text-amber-600 dark:text-amber-400 font-medium">{{ formatCurrency(p.interestPaid) }}</td>
+            <td class="px-4 py-3.5 font-mono text-red-500 dark:text-red-400 font-medium">
+              {{ p.penaltyPaid > 0 ? formatCurrency(p.penaltyPaid) : '—' }}
+            </td>
+            <td class="px-4 py-3.5">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-2.5 py-1"
+                [class]="p.paymentStatus === 'Success'
+                  ? 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-500/20'
+                  : 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-500/20'">
+                <span class="w-1.5 h-1.5 rounded-full"
+                  [class]="p.paymentStatus === 'Success' ? 'bg-green-500' : 'bg-red-500'"></span>
+                {{ p.paymentStatus }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
