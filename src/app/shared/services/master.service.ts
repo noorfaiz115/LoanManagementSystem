@@ -50,9 +50,9 @@ export interface ScorecardDto {
     providedIn: 'root'
 })
 export class MasterService {
-    private creditApiUrl = 'https://localhost:7167/api/v1/cibil';
-    private eligibilityApiUrl = 'https://localhost:7230/api/v1/eligibility';
-    private scorecardApiUrl = 'https://localhost:7230/api/v1/scorecard';
+    private creditApiUrl = 'https://creditservices-dhf2avgkhqdwdabq.canadacentral-01.azurewebsites.net/api/v1/cibil';
+    private eligibilityApiUrl = 'https://eligibilityservices-deffexc3b3hxhcan.canadacentral-01.azurewebsites.net/api/v1/eligibility';
+    private scorecardApiUrl = 'https://eligibilityservices-deffexc3b3hxhcan.canadacentral-01.azurewebsites.net/api/v1/scorecard';
 
     constructor(private http: HttpClient) { }
 
@@ -62,7 +62,7 @@ export class MasterService {
     }
 
     checkCibil(request: CibilCheckRequest): Observable<ApiResponse<CibilReportDto>> {
-        return this.http.post<ApiResponse<CibilReportDto>>(`${this.creditApiUrl}/check`, request);
+        return this.http.post<ApiResponse<CibilReportDto>>(`${this.creditApiUrl}/Generate`, request);
     }
 
     getCibilByCustomerId(customerId: number): Observable<ApiResponse<CibilReportDto>> {
