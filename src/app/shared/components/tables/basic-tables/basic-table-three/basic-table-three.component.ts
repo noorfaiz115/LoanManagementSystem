@@ -1,8 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ButtonComponent } from '../../../ui/button/button.component';
-import { TableDropdownComponent } from '../../../common/table-dropdown/table-dropdown.component';
-import { BadgeComponent } from '../../../ui/badge/badge.component';
+import { CommonModule } from "@angular/common";
+import { Component, Pipe } from "@angular/core";
+import { ButtonComponent } from "../../../ui/button/button.component";
+import { TableDropdownComponent } from "../../../common/table-dropdown/table-dropdown.component";
+import { BadgeComponent } from "../../../ui/badge/badge.component";
+import { Input } from "@angular/core";
+import { Emi } from "../../../../services/emi.service";
 
 interface Transaction {
   image: string;
@@ -14,20 +16,19 @@ interface Transaction {
 }
 
 @Component({
-  selector: 'app-basic-table-three',
+  selector: "app-basic-table-three",
   imports: [
     CommonModule,
     ButtonComponent,
     TableDropdownComponent,
     BadgeComponent,
   ],
-  templateUrl: './basic-table-three.component.html',
-  styles: ``
+  templateUrl: "./basic-table-three.component.html",
+  styles: ``,
 })
 export class BasicTableThreeComponent {
-
   // Type definition for the transaction data
-
+  @Input() tableData: any[] = [];
 
   transactionData: Transaction[] = [
     {
@@ -150,7 +151,7 @@ export class BasicTableThreeComponent {
       category: "Finance", // Category of the transaction
       status: "Failed",
     },
-  ]
+  ];
 
   currentPage = 1;
   itemsPerPage = 5;
@@ -159,9 +160,10 @@ export class BasicTableThreeComponent {
     return Math.ceil(this.transactionData.length / this.itemsPerPage);
   }
 
-  get currentItems(): Transaction[] {
+  get currentItems(): Emi[] {
+    console.log(this.tableData);
     const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.transactionData.slice(start, start + this.itemsPerPage);
+    return this.tableData.slice(start, start + this.itemsPerPage);
   }
 
   goToPage(page: number) {
@@ -170,19 +172,19 @@ export class BasicTableThreeComponent {
     }
   }
 
-  handleViewMore(item: Transaction) {
+  handleViewMore(item: Emi) {
     // logic here
-    console.log('View More:', item);
+    console.log("View More:", item);
   }
 
-  handleDelete(item: Transaction) {
+  handleDelete(item: Emi) {
     // logic here
-    console.log('Delete:', item);
+    console.log("Delete:", item);
   }
 
-  getBadgeColor(status: string): 'success' | 'warning' | 'error' {
-    if (status === 'Success') return 'success';
-    if (status === 'Pending') return 'warning';
-    return 'error';
+  getBadgeColor(status: string): "success" | "warning" | "error" {
+    if (status === "Paid") return "success";
+    if (status === "Pending") return "warning";
+    return "error";
   }
 }

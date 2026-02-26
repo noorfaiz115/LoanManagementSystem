@@ -156,7 +156,7 @@ export const routes: Routes = [
         component: PaymentComponent,
 
         canActivate: [authGuard],
-        data: { roles: ["Customer"] },
+        data: { roles: ["User"] },
         title:
           "Angular Payment Dashboard | TailAdmin - Angular Admin Dashboard Template",
       },
