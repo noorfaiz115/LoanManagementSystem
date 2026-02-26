@@ -14,11 +14,20 @@ export class AuthService {
   private platformId = inject(PLATFORM_ID);
   // private router = inject(Router);
   // private apiUrl = `${environment.apiUrl}/Auth/`;
-  private apiUrl = `https://localhost:7215/api/Auth`;
+  private apiUrl = `https://autrhservicesss-hqabfrbhe5agaghv.canadacentral-01.azurewebsites.net/api/Auth`;
   constructor(private router: Router) {}
 
   login(credentials: any) {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+    return this.http.post<any>(`${this.apiUrl}/Login`, credentials).pipe(
+      tap((response) => {
+        if (response.success && response.data?.token) {
+          this.setToken(response.data.token);
+        }
+      }),
+    );
+  }
+  register(credentials: any) {
+    return this.http.post<any>(`${this.apiUrl}/Register`, credentials).pipe(
       tap((response) => {
         if (response.success && response.data?.token) {
           this.setToken(response.data.token);
