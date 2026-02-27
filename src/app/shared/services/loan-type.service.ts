@@ -21,12 +21,21 @@ export interface ApiResponse<T> {
 })
 export class LoanTypeService {
   private url =
-    "https://loanorigination-hzh4e6c8c3hfdhde.canadacentral-01.azurewebsites.net/api/";
+    "https://loanorigination-hzh4e6c8c3hfdhde.canadacentral-01.azurewebsites.net/api/LoanType";
   constructor(private http: HttpClient) {}
 
   GetLoanTypes(): Observable<ApiResponse<LoanType[]>> {
-    return this.http.get<ApiResponse<LoanType[]>>(`${this.url}/LoanType`);
+    return this.http.get<ApiResponse<LoanType[]>>(`${this.url}`);
   }
 
-  AddLoanType(name: string, intrest: number) {}
+  AddLoanType(
+    name: string,
+    interest: number,
+  ): Observable<ApiResponse<LoanType[]>> {
+    const body = {
+      loanType_name: name,
+      loanType_interest: interest,
+    };
+    return this.http.post<ApiResponse<LoanType[]>>(this.url, body);
+  }
 }

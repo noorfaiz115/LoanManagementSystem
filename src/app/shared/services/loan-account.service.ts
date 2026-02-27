@@ -27,7 +27,7 @@ export interface ApiResponse<T> {
   providedIn: "root",
 })
 export class LoanAccountService {
-  private url = `https://localhost:7164/api/`;
+  private url = `https://loanaccountservicee-cmehdfdndjfnfxcq.canadacentral-01.azurewebsites.net/api/`;
 
   constructor(
     private http: HttpClient,
