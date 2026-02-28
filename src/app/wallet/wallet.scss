@@ -1,0 +1,42 @@
+.wallet-balance-card {
+  background: linear-gradient(135deg, #6a5af9, #7b3fe4);
+  border-radius: 20px;
+  padding: 28px 32px;
+}
+
+.balance-icon {
+  font-size: 28px;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 14px;
+  border-radius: 14px;
+}
+
+.action-buttons {
+  gap: 12px;
+}
+
+.transaction-item {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.25s ease;
+}
+
+.transaction-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #eef2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  font-size: 20px;
+}

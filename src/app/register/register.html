@@ -1,0 +1,20 @@
+<form [formGroup]="registerform" (ngSubmit)="registerData(registerform.value)">
+    {{registerform.value |json}}
+    <label for="exampleInputEmail1">UserName</label>
+    <input type="text" class="form-control" formControlName="userName" id="exampleInputEmail1"  [class.is-invalid]="userName.invalid && userName.touched" placeholder="Enter userName">
+        <div class="text-danger" *ngIf="userName.invalid && userName.touched">
+        <span *ngIf="userName.errors?.['required']">Required</span>
+        <span *ngIf="userName.errors?.['pattern']">Name contains only characters</span>
+    </div>
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" formControlName="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password" [class.is-invalid]="password.invalid && password.touched" placeholder="Enter password">
+    <div class="text-danger" *ngIf="password.invalid && password.touched">
+      <span *ngIf="password.errors?.['required']">Required</span>
+      <span *ngIf="password.errors?.['minLength']">4 digit Required</span>
+    </div>
+
+      <br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

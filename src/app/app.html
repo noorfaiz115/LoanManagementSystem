@@ -1,0 +1,49 @@
+@if (!IsLoggedIn) {
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Bitcoin</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register" (click)="hideLogin()">Register</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- LOGIN FORM (hide when Register clicked) -->
+  @if (showLoginForm) {
+    <div class="container mt-4">
+      <form [formGroup]="loginform" (ngSubmit)="signIn(loginform.value)">
+        <hr>
+        <label>Email address</label>
+        <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+        <label class="mt-2">Password</label>
+        <input type="password"  class="form-control" formControlName="password" [class.is-invalid]="password.invalid && password.touched" placeholder="Enter password">
+        <div class="text-danger" *ngIf="password.invalid && password.touched">
+          <span *ngIf="password.errors?.['required']">Required</span>
+          <span *ngIf="password.errors?.['minlength']">4 digit Required</span>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  }
+}
+
+@if (IsLoggedIn) 
+{
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Bitcoin</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"> <a class="nav-link" routerLink="/dashboard">Dashboard</a></li>
+        <li class="nav-item"> <a class="nav-link" routerLink="/cryptocurrency">Cryptocurrency</a> </li>
+        <li class="nav-item"> <a class="nav-link" routerLink="/favourite">Favourite</a> </li>
+        <li class="nav-item"> <a class="nav-link" routerLink="/wallet">Wallet</a> </li>
+      </ul>
+      <button class="btn btn-outline-danger" (click)="logout()"> Logout </button>
+    </div>
+  </nav>
+}
+<router-outlet></router-outlet>

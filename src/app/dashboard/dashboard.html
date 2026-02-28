@@ -1,0 +1,23 @@
+<div class="dashboard-container">
+
+  <div class="card">
+    <p>Total Invested</p>
+    <h2>{{ getDashboard.totalInvested | currency:'USD'}}</h2>
+  </div>
+
+  <div class="card">
+    <p>Current Portfolio Value</p>
+    <h2>{{ getDashboard.currentPortfolioValue |currency:'USD'}}</h2>
+  </div>
+
+  <div class="card">
+    <p>P&L Value</p>
+    <h2> {{ getDashboard.profitAndLoss}}</h2>
+  </div>
+
+  <div class="card">
+    <p>P&L %</p>    
+    <h2 > {{ getDashboard.profitAndLossPercentage}}%</h2>
+  </div>
+
+</div>

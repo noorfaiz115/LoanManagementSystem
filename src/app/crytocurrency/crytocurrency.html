@@ -1,0 +1,89 @@
+<div class="container mt-4">
+
+  <h2 class="mb-4">Cryptocurrency List</h2>
+
+  <div class="row">
+
+    @for (coin of allcrypt; track coin.crypto_id) {
+
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm p-3">
+        <div class="d-flex align-items-center">
+          <img [src]="coin.image" width="50" height="50" class="rounded-circle me-3" />
+
+          <div>
+            <h5 class="mb-0">{{ coin.name }}</h5> <small class="text-muted">{{ coin.symbol }}</small>
+          </div>
+        </div>
+        <h4 class="mt-3"> Price: ${{ coin.current_price }}</h4>
+        <div class="form-check mt-2">
+          <!-- <input class="form-check-input" type="checkbox" [id]="'favouritecheckbox'+coin.crypto_id" (change)="changestatus(coin,$event)"/> -->
+          <!-- <label class="form-check-label" > Favourite </label> -->
+          <mat-checkbox class="example-margin"   [checked]="coin.isChecked" [id]="'favouritecheckbox'+coin.crypto_id" (change)="changestatus(coin,$event)">Favourite</mat-checkbox>
+        </div>
+        <button class="btn btn-success mt-2" data-toggle="modal" data-target="#buyModal" (click)="openBuyModal(coin)">
+          Buy </button>
+        <button class="btn btn-danger mt-2" data-toggle="modal" data-target="#sellModal" (click)="openSellModal(coin)">
+          Sell </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="buyModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Buy {{ SelectedCoin?.name }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="buyCryptoForm" (ngSubmit)="buyCryptData()">
+          <input type="hidden" formControlName="crypto_id">
+          <input type="hidden" formControlName="cryptoPrice">
+          <input type="hidden" formControlName="orderStatus">
+          <p>Coin: {{ SelectedCoin?.name }}</p>
+          <p>Price: ${{ SelectedCoin?.current_price }}</p>
+          <label>Quantity</label> <input type="number" class="form-control" formControlName="cryptoQuantity">
+          <button type="submit" class="btn btn-success mt-3"> Confirm Buy </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="sellModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sell {{ SelectedCoin?.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal"> <span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="sellCryptoForm" (ngSubmit)="sellCryptData()">
+          <input type="hidden" formControlName="crypto_id">
+          <input type="hidden" formControlName="cryptoPrice">
+          <input type="hidden" formControlName="orderStatus">
+          <p>Coin:{{ SelectedCoin?.name }}</p>
+          <p>Price: ${{ SelectedCoin?.current_price }}</p>
+          <label>Quantity</label> <input type="number" class="form-control" formControlName="cryptoQuantity">
+          <button type="submit" class="btn btn-danger mt-3"> Confirm Sell </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-paginator [length]="totalItems"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              (page)="onPageChange($event)"
+              aria-label="Select page">
+</mat-paginator>
