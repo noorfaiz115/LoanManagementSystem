@@ -1,0 +1,121 @@
+<div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md">
+
+  <!--  Search -->
+  <div class="p-4 border-b border-gray-200 bg-gray-50">
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      placeholder="Search customers..."
+      class="w-72 border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+  </div>
+
+<div *ngIf="isLoading" class="items-center">
+
+  <b><h1 style="color:blue" > Loading Data .... </h1></b> 
+   
+</div>
+
+  <!--  Table -->
+  <div class="max-w-full overflow-x-auto">
+    <table class="min-w-full text-sm text-left text-gray-700" *ngIf="!isLoading">
+
+      <!-- Table Header -->
+      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3 cursor-pointer hover:text-blue-600" (click)="sort('customerId')">Customer ID</th>
+          <th class="px-4 py-3">User ID</th>
+          <th class="px-4 py-3">Mobile</th>
+          <th class="px-4 py-3">Aadhar</th>
+          <th class="px-4 py-3 cursor-pointer hover:text-blue-600" (click)="sort('pan')">PAN</th>
+          <th class="px-4 py-3">DOB</th>
+          <th class="px-4 py-3">Age</th>
+          <th class="px-4 py-3">Gender</th>
+          <th class="px-4 py-3">Employment</th>
+          <th class="px-4 py-3 cursor-pointer hover:text-blue-600" (click)="sort('monthlyIncome')">Income</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3 cursor-pointer hover:text-blue-600" (click)="sort('createdAt')">Created</th>
+          <th class="px-4 py-3">Modified</th>
+          <th class="px-4 py-3 text-center">Action</th>
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody class="divide-y divide-gray-200">
+
+        <tr *ngFor="let c of paginatedData"
+            class="hover:bg-gray-50 transition duration-200">
+
+          <td class="px-4 py-3 font-medium">{{ c.customerId }}</td>
+          <td class="px-4 py-3">{{ c.userId }}</td>
+          <td class="px-4 py-3">{{ c.mobile }}</td>
+          <td class="px-4 py-3">{{ c.aadhar }}</td>
+          <td class="px-4 py-3">{{ c.pan }}</td>
+          <td class="px-4 py-3">{{ c.dob | date }}</td>
+          <td class="px-4 py-3">{{ c.age }}</td>
+          <td class="px-4 py-3">{{ c.gender }}</td>
+          <td class="px-4 py-3">{{ c.employmentType }}</td>
+          <td class="px-4 py-3 font-semibold text-green-600">
+            ₹{{ c.monthlyIncome }}
+          </td>
+
+          <!-- Status Badge -->
+          <td class="px-4 py-3">
+            <span
+              class="px-3 py-1 text-xs font-semibold rounded-full"
+              [ngClass]="{
+                'bg-green-100 text-green-700': c.status === 'Active',
+                'bg-red-100 text-red-700': c.status !== 'Active'
+              }">
+              {{ c.status }}
+            </span>
+          </td>
+
+          <td class="px-4 py-3">{{ c.createdAt | date:'dd-MM-yyyy hh:mm' }}</td>
+
+          <td class="px-4 py-3">
+            {{ c.modifiedAt ? (c.modifiedAt | date:'medium') : 'Not Modified' }}
+          </td>
+
+          <!-- Action Buttons -->
+          <td class="px-4 py-3 text-center">
+            <button
+              class="text-blue-600 hover:text-blue-800 font-medium mr-3">
+              Edit
+            </button>
+            <button
+              class="text-red-600 hover:text-red-800 font-medium" (click)="DeleteCustomer(c.customerId)">
+              Delete
+            </button>
+          </td>
+
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="p-4 flex justify-between items-center bg-gray-50 border-t border-gray-200">
+
+    <button
+      (click)="prev()"
+      [disabled]="currentPage === 1"
+      class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+      Prev
+    </button>
+
+    <span class="text-sm font-medium">
+      Page {{ currentPage }}
+    </span>
+
+    <button
+      (click)="next()"
+      [disabled]="currentPage * itemsPerPage >= filteredData.length"
+      class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+      Next
+    </button>
+
+  </div>
+
+</div>

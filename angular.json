@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+<<<<<<< HEAD
   "cli": {
     "packageManager": "npm"
   },
@@ -13,6 +14,13 @@
           "style": "scss"
         }
       },
+=======
+  "newProjectRoot": "projects",
+  "projects": {
+    "ng-tailadmin": {
+      "projectType": "application",
+      "schematics": {},
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -20,9 +28,23 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+<<<<<<< HEAD
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+=======
+            "outputPath": "dist/ng-tailadmin",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "allowedCommonJsDependencies": [
+               "prismjs",
+               "polylabel"
+            ],
+            "tsConfig": "tsconfig.app.json",
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
             "assets": [
               {
                 "glob": "**/*",
@@ -30,8 +52,15 @@
               }
             ],
             "styles": [
+<<<<<<< HEAD
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
+=======
+              "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/apexcharts/dist/apexcharts.min.js"
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
             ]
           },
           "configurations": {
@@ -39,8 +68,13 @@
               "budgets": [
                 {
                   "type": "initial",
+<<<<<<< HEAD
                   "maximumWarning": "500kB",
                   "maximumError": "1MB"
+=======
+                  "maximumWarning": "4mb",
+                  "maximumError": "5MB"
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
                 },
                 {
                   "type": "anyComponentStyle",
@@ -62,18 +96,82 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "buildTarget": "Bitcoin:build:production"
             },
             "development": {
               "buildTarget": "Bitcoin:build:development"
+=======
+              "buildTarget": "ng-tailadmin:build:production"
+            },
+            "development": {
+              "buildTarget": "ng-tailadmin:build:development"
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
             }
           },
           "defaultConfiguration": "development"
         },
+<<<<<<< HEAD
         "test": {
           "builder": "@angular/build:unit-test"
         }
       }
     }
+=======
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
+  },
+  "cli": {
+    "analytics": false
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
   }
 }

@@ -26,7 +26,10 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+<<<<<<< HEAD
 !.vscode/mcp.json
+=======
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
 .history/*
 
 # Miscellaneous
@@ -37,7 +40,10 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+<<<<<<< HEAD
 __screenshots__/
+=======
+>>>>>>> 822d582d87940a2319b042f731cccc62103b01b1
 
 # System files
 .DS_Store

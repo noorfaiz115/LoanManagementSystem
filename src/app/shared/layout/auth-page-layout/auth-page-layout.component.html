@@ -1,0 +1,33 @@
+<div class="relative p-6 bg-white z-1 dark:bg-gray-900 sm:p-0">
+  <div
+    class="relative flex flex-col justify-center w-full h-screen lg:flex-row dark:bg-gray-900 sm:p-0"
+  >
+    <ng-content></ng-content>
+
+    <!-- Right Side with Image -->
+    <div
+      class="items-center hidden w-full h-full lg:w-1/2 bg-brand-950 dark:bg-white/5 lg:grid relative"
+    >
+      <div class="flex items-center justify-center z-1">
+        <app-grid-shape />
+        <div class="flex flex-col items-center max-w-xs">
+          <img
+            src="https://copilot.microsoft.com/th/id/BCO.c4320889-cc99-4e07-807e-efb911cd93b1.png"
+            alt="Loan Management Illustration"
+            class="w-full h-auto object-contain rounded-lg shadow-lg"
+          />
+          <p class="text-center text-gray-400 dark:text-white/60 mt-4">
+            Welcome to our application! Please log in to access your account and
+            explore our features. If you don't have an account, feel free to
+            sign up and join our community. We're excited to have you on board!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="fixed z-50 hidden bottom-6 right-6 sm:block">
+      <app-theme-toggle-two />
+    </div>
+  </div>
+</div>
